@@ -48,6 +48,7 @@ void logMessage(const std::string& message) {
 void closeLog() {
     if (logFile.is_open()) {
         logMessage("[INFO][LOG] Log file closed.");
+        logFile << "\n" << " --------------------------------------------------------- " << "\n" << std::endl;
         logFile.close();
     }
 }
