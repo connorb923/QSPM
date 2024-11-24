@@ -69,5 +69,5 @@ jobs:
     - name: Upload Build Results as an Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: QSPM-Build-${{ matrix.os }}-${{ github.workflow }}
+        name: qspmbuild-${{ github.sha }}-${{ matrix.os }}
         path: ${{ steps.strings.outputs.build-output-dir }}/CMakeFiles
