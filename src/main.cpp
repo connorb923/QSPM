@@ -1,19 +1,28 @@
 ﻿#include "QSPM.h"
 
-using namespace std;
+sqlite3* db;
 
-int main() {
-    sqlite3 *db;
-    char *errMessage = 0;
+bool doesFileExist(const std::string& filename) {
+    std::ifstream file(filename);
+    return file.good();
+}
 
-    // Open or create a database
-    int rc = sqlite3_open("projects.db", &db);
-    if (rc) {
-        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
-        return(0);
+int initDB(const std::string& dbFilename) {
+    if (doesFileExist(dbFilename)) {
+        return 0;
     }
 
-    // SQL statement for creating the table
+    std::cout << "[INFO] Inital Setup" << std::endl;
+    std::cout << "[INFO] Creating Projects Database" << std::endl;
+
+    char* errMessage = 0;
+
+    int projDB = sqlite3_open(dbFilename.c_str(), &db);
+    if (projDB) {
+        std::cerr << "[ERROR][SQL] " << sqlite3_errmsg(db) << std::endl;
+        return 1;
+    }
+
     const char* sql = R"(
         CREATE TABLE IF NOT EXISTS Projects (
             ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,17 +33,33 @@ int main() {
         );
     )";
 
-    // Execute SQL statement
-    rc = sqlite3_exec(db, sql, 0, 0, &errMessage);
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMessage << std::endl;
-        sqlite3_free(errMessage);
-    } else {
-        std::cout << "Table created successfully or already exists." << std::endl;
+    projDB = sqlite3_exec(db, sql, 0, 0, &errMessage);
+    if (projDB != SQLITE_OK) {
+        std::cerr << "[ERROR][SQL] " << sqlite3_errmsg(db) << std::endl;
+        if (errMessage) {
+            std::cerr << "[ERROR][SQL] " << errMessage << std::endl;
+            sqlite3_free(errMessage);
+        }
+        sqlite3_close(db);
+        return 1;
+    }
+    else {
+        std::cout << "[SQL] DATABASE CREATED" << std::endl;
     }
 
-    // Close the database connection
+    return 0;
+}
+
+int main() {
+    const std::string dbFilename = "projects.db";
+
+    int result = initDB(dbFilename);
+    if (result != 0) {
+        sqlite3_close(db);
+        std::cerr << "[ERROR][SQL] DATABASE FAILED TO CREATE";
+        return result;
+    }
+
     sqlite3_close(db);
-    
     return 0;
 }
