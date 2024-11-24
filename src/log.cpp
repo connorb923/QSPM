@@ -27,9 +27,10 @@ std::string getCurrentTime() {
 #else
 
 std::string getCurrentTime() {
-    std::time_t timeStamp = std::time(0);
+    std::time_t now = std::time(0);
     char buffer[80];
-    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime_s(&timeStamp));
+    std::tm* timeinfo = std::localtime(&now);
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo); // Use strftime without std::
     return std::string(buffer);
 }
 
