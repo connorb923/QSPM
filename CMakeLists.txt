@@ -1,9 +1,7 @@
-﻿# CMakeList.txt : CMake project for QSPM, include source and define
-# project specific logic here.
-#
+﻿# FILE AUTOMATICALLY CREATED BY MSVS 2022
+
 cmake_minimum_required (VERSION 3.8)
 
-# Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
@@ -11,11 +9,11 @@ endif()
 
 project ("QSPM")
 
-# Add source to this project's executable.
-add_executable (QSPM "src/main.cpp" "src/QSPM.h")
+add_executable (QSPM "src/main.cpp" "src/QSPM.h" "lib/sqlite3/sqlite3.c")
+
+include_directories("lib/sqlite3")
+
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET QSPM PROPERTY CXX_STANDARD 20)
 endif()
-
-# TODO: Add tests and install targets if needed.
