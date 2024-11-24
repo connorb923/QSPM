@@ -1,6 +1,6 @@
-﻿#include "../include/database.h"
-#include "../include/main.h"
-#include "../include/log.h"
+﻿#include "../include/database.hpp"
+#include "../include/main.hpp"
+#include "../include/log.hpp"
 
 int main() {
     const std::string dbFilename = "projects.db";

@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include "main.h"
+#include "main.hpp"
 
 int initLog(const std::string& logFilename);
 void logMessage(const std::string& message);
