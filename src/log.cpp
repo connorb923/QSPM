@@ -15,12 +15,25 @@ int initLog(const std::string& logFilename) {
     }
 }
 
+#ifdef _WIN32
+
 std::string getCurrentTime() {
-    std::time_t now = std::time(0);
+    std::time_t timeStamp = std::time(0);
     char buffer[80];
-    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&timeStamp));
     return std::string(buffer);
 }
+
+#else
+
+std::string getCurrentTime() {
+    std::time_t timeStamp = std::time(0);
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime_s(&timeStamp));
+    return std::string(buffer);
+}
+
+#endif
 
 void logMessage(const std::string& message) {
     if (logFile.is_open()) {
