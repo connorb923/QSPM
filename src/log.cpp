@@ -27,7 +27,7 @@ std::string getCurrentTime() {
 #else
 
 std::string getCurrentTime() {
-    std::time_t now = std::time(0)
+    std::time_t now = std::time(0);
     char buffer[80];
     std::tm* timeinfo = std::localtime(&now);
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
