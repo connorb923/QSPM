@@ -4,5 +4,6 @@
 #pragma once
 
 #include <iostream>
+#include "../lib/sqlite3/sqlite3.h"
 
 // TODO: Reference additional headers your program requires here.
