@@ -67,7 +67,7 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
 
     - name: Upload Build Results as an Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: build-results-${{ matrix.os }}-${{ matrix.c_compiler }}
+        name: QSPM-Build-${{ matrix.os }}-${{ github.workflow }}
         path: ${{ steps.strings.outputs.build-output-dir }}/CMakeFiles
