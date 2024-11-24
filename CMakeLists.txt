@@ -9,7 +9,7 @@ endif()
 
 project ("QSPM")
 
-add_executable (QSPM "src/main.cpp" "src/QSPM.h" "lib/sqlite3/sqlite3.c")
+add_executable (QSPM "src/main.cpp" "include/main.h" "lib/sqlite3/sqlite3.c" "include/database.h" "include/log.h" "src/database.cpp" "src/log.cpp")
 
 include_directories("lib/sqlite3")
 
