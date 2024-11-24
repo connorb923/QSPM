@@ -4,17 +4,6 @@
 
 std::ofstream logFile;
 
-int initLog(const std::string& logFilename) {
-    logFile.open(logFilename, std::ios::app);
-    if (!logFile.is_open()) {
-        return 1;
-    }
-    else {
-        logMessage("[ACCESS][LOG] Program ran");
-        return 0;
-    }
-}
-
 #ifdef _WIN32
 
 std::string getCurrentTime() {
@@ -36,6 +25,19 @@ std::string getCurrentTime() {
 
 #endif
 
+int initLog(const std::string& logFilename) {
+    logFile.open(logFilename, std::ios::app);
+    if (!logFile.is_open()) {
+        return 1;
+    }
+    else {
+        logFile << "\n                    " + getCurrentTime() + "\n" << " --------------------------------------------------------- " << "\n" << std::endl;
+        return 0;
+    }
+}
+
+
+
 void logMessage(const std::string& message) {
     if (logFile.is_open()) {
         logFile << getCurrentTime() << " - " << message << std::endl;
@@ -48,7 +50,7 @@ void logMessage(const std::string& message) {
 void closeLog() {
     if (logFile.is_open()) {
         logMessage("[INFO][LOG] Log file closed.");
-        logFile << "\n" << " --------------------------------------------------------- " << "\n" << std::endl;
+        logFile << "\n" << " --------------------------------------------------------- " << "\n                    " + getCurrentTime() + "\n" << std::endl;
         logFile.close();
     }
 }
